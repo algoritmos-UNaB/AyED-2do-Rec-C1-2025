@@ -1,0 +1,188 @@
+name: Autograding Tests - Concurso Bandas de Rock
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install pandas
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Test Básico - Importación de Clases
+      id: test-importacion
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Básico - Importación de Clases'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import Banda, PresentacionMusical; print('Clases importadas correctamente')"
+        input: ''
+        expected-output: 'Clases importadas correctamente'
+        comparison-method: exact
+        timeout: 10
+        max-score: 2
+    
+    - name: Test Clase Banda - Constructor y Atributos
+      id: test-banda-constructor
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Clase Banda - Constructor y Atributos'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import Banda; b = Banda('Los Rockers', ['Juan', 'María'], 'Rock', 'Buenos Aires'); print(f'{b.nombre},{b.genero},{b.ranking_actual}')"
+        input: ''
+        expected-output: 'Los Rockers,Rock,100'
+        comparison-method: exact
+        timeout: 10
+        max-score: 3
+    
+    - name: Test Clase PresentacionMusical - Constructor
+      id: test-presentacion-constructor
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Clase PresentacionMusical - Constructor'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import PresentacionMusical; p = PresentacionMusical(1, 'Rock Festival', 'Luna Park', 500); print(f'{p.identificador},{p.nombre},{p.par}')"
+        input: ''
+        expected-output: '1,Rock Festival,500'
+        comparison-method: exact
+        timeout: 10
+        max-score: 3
+    
+    - name: Test Sumar/Restar Puntos Banda
+      id: test-puntos-banda
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Sumar/Restar Puntos Banda'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import Banda; b = Banda('Test', ['A'], 'Rock', 'BA'); b.sumar_puntos(50); print(b.ranking_actual); b.restar_puntos(30); print(b.ranking_actual)"
+        input: ''
+        expected-output: "150\n120"
+        comparison-method: exact
+        timeout: 10
+        max-score: 4
+    
+    - name: Test Validación Ranking Mínimo
+      id: test-ranking-minimo
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Validación Ranking Mínimo'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import Banda; b = Banda('Test', ['A'], 'Rock', 'BA'); b.restar_puntos(50); print(b.ranking_actual); b.restar_puntos(100); print(b.ranking_actual)"
+        input: ''
+        expected-output: "50\n100"
+        comparison-method: exact
+        timeout: 10
+        max-score: 5
+    
+    - name: Test Lista Enlazada - Implementación
+      id: test-lista-enlazada
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Lista Enlazada - Implementación'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import ListaEnlazada, Nodo; l = ListaEnlazada(); l.agregar_al_inicio('A'); l.agregar_al_final('B'); print(f'{l.obtener_tamaño()},{l.obtener_elemento(0)},{l.obtener_elemento(1)}')"
+        input: ''
+        expected-output: '2,A,B'
+        comparison-method: exact
+        timeout: 15
+        max-score: 8
+    
+    - name: Test Pila con Lista Enlazada
+      id: test-pila
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Pila con Lista Enlazada'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import Pila; p = Pila(); p.apilar('X'); p.apilar('Y'); top = p.tope(); p.desapilar(); print(f'{top},{p.tope()}')"
+        input: ''
+        expected-output: 'Y,X'
+        comparison-method: exact
+        timeout: 15
+        max-score: 8
+    
+    - name: Test Cola con Comportamiento FIFO
+      id: test-cola
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Cola con Comportamiento FIFO'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import PilaPresentaciones; c = PilaPresentaciones(); c.apilar('First'); c.apilar('Second'); first = c.desapilar(); print(f'{first},{c.tope()}')"
+        input: ''
+        expected-output: 'First,Second'
+        comparison-method: exact
+        timeout: 15
+        max-score: 8
+    
+    - name: Test Generación Aleatoria de Datos
+      id: test-generacion-aleatoria
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Generación Aleatoria de Datos'
+        setup-command: ''
+        command: python3 -c "from ejercicio1 import generar_bandas_aleatorias; bandas = generar_bandas_aleatorias(); print('OK' if len(bandas) >= 15 and len(bandas) <= 25 else 'FAIL')"
+        input: ''
+        expected-output: 'OK'
+        comparison-method: exact
+        timeout: 15
+        max-score: 5
+    
+    - name: Test Anti-IA - Detección de Patrones Sospechosos
+      id: test-anti-ia
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Anti-IA - Detección de Patrones Sospechosos'
+        setup-command: 'chmod +x anti_ai_detector.py'
+        command: python3 anti_ai_detector.py ejercicio1.py
+        input: ''
+        expected-output: 'AI_DETECTION_SCORE: 0'
+        comparison-method: exact
+        timeout: 30
+        max-score: 0
+    
+    - name: Test Verificación Integridad - Commits Timeline
+      id: test-commits
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 'Test Verificación Integridad - Commits Timeline'
+        setup-command: 'chmod +x commit_analyzer.py'
+        command: python3 commit_analyzer.py
+        input: ''
+        expected-output: 'TIMELINE_VALID: True'
+        comparison-method: exact
+        timeout: 10
+        max-score: 0
+    
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-IMPORTACION_RESULTS: "${{steps.test-importacion.outputs.result}}"
+        TEST-BANDA-CONSTRUCTOR_RESULTS: "${{steps.test-banda-constructor.outputs.result}}"
+        TEST-PRESENTACION-CONSTRUCTOR_RESULTS: "${{steps.test-presentacion-constructor.outputs.result}}"
+        TEST-PUNTOS-BANDA_RESULTS: "${{steps.test-puntos-banda.outputs.result}}"
+        TEST-RANKING-MINIMO_RESULTS: "${{steps.test-ranking-minimo.outputs.result}}"
+        TEST-LISTA-ENLAZADA_RESULTS: "${{steps.test-lista-enlazada.outputs.result}}"
+        TEST-PILA_RESULTS: "${{steps.test-pila.outputs.result}}"
+        TEST-COLA_RESULTS: "${{steps.test-cola.outputs.result}}"
+        TEST-GENERACION-ALEATORIA_RESULTS: "${{steps.test-generacion-aleatoria.outputs.result}}"
+        TEST-ANTI-IA_RESULTS: "${{steps.test-anti-ia.outputs.result}}"
+        TEST-COMMITS_RESULTS: "${{steps.test-commits.outputs.result}}"
+      with:
+        runners: test-importacion,test-banda-constructor,test-presentacion-constructor,test-puntos-banda,test-ranking-minimo,test-lista-enlazada,test-pila,test-cola,test-generacion-aleatoria,test-anti-ia,test-commits

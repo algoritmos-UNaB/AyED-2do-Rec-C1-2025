@@ -1,0 +1,184 @@
+{
+  "tests": [
+    {
+      "name": "Test Básico - Importación de Clases",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda, PresentacionMusical; print('Clases importadas correctamente')\"",
+      "input": "",
+      "output": "Clases importadas correctamente",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "Test Clase Banda - Constructor y Atributos",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda; b = Banda('Los Rockers', ['Juan', 'María'], 'Rock', 'Buenos Aires'); print(f'{b.nombre},{b.genero},{b.ranking_actual}')\"",
+      "input": "",
+      "output": "Los Rockers,Rock,100",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "Test Clase PresentacionMusical - Constructor",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import PresentacionMusical; p = PresentacionMusical(1, 'Rock Festival', 'Luna Park', 500); print(f'{p.identificador},{p.nombre},{p.par}')\"",
+      "input": "",
+      "output": "1,Rock Festival,500",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "Test Sumar/Restar Puntos Banda",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda; b = Banda('Test', ['A'], 'Rock', 'BA'); b.sumar_puntos(50); print(b.ranking_actual); b.restar_puntos(30); print(b.ranking_actual)\"",
+      "input": "",
+      "output": "150\n120",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "Test Validación Ranking Mínimo",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda; b = Banda('Test', ['A'], 'Rock', 'BA'); b.restar_puntos(50); print(b.ranking_actual); b.restar_puntos(100); print(b.ranking_actual)\"",
+      "input": "",
+      "output": "50\n100",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "Test Iniciar Competencia",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda, PresentacionMusical; b = Banda('Test', ['A'], 'Rock', 'BA'); p = PresentacionMusical(1, 'Fest', 'Venue', 300); result = b.iniciar_competencia(p); print('OK' if result else 'FAIL')\"",
+      "input": "",
+      "output": "OK",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "Test Cálculo Ranking con 8 Presentaciones",
+      "setup": "",
+      "run": "python3 test_ranking_calculation.py",
+      "input": "",
+      "output": "Test passed: ranking calculation correct",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 6
+    },
+    {
+      "name": "Test Búsqueda Lineal Presentaciones",
+      "setup": "",
+      "run": "python3 test_busqueda_lineal.py",
+      "input": "",
+      "output": "Test passed: linear search working",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 6
+    },
+    {
+      "name": "Test Eliminar Competencia - Todas las Instancias",
+      "setup": "",
+      "run": "python3 test_eliminar_competencia.py",
+      "input": "",
+      "output": "Test passed: competition removal complete",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 7
+    },
+    {
+      "name": "Test Lista Enlazada - Implementación Completa",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import ListaEnlazada, Nodo; l = ListaEnlazada(); l.agregar_al_inicio('A'); l.agregar_al_final('B'); print(f'{l.obtener_tamaño()},{l.obtener_elemento(0)},{l.obtener_elemento(1)}')\"",
+      "input": "",
+      "output": "2,A,B",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 8
+    },
+    {
+      "name": "Test Pila con Lista Enlazada",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Pila; p = Pila(); p.apilar('X'); p.apilar('Y'); top = p.tope(); p.desapilar(); print(f'{top},{p.tope()}')\"",
+      "input": "",
+      "output": "Y,X",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 8
+    },
+    {
+      "name": "Test Cola con Comportamiento FIFO",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import PilaPresentaciones; c = PilaPresentaciones(); c.apilar('First'); c.apilar('Second'); first = c.desapilar(); print(f'{first},{c.tope()}')\"",
+      "input": "",
+      "output": "First,Second",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 8
+    },
+    {
+      "name": "Test Iteradores - Pila y Cola",
+      "setup": "",
+      "run": "python3 test_iteradores.py",
+      "input": "",
+      "output": "Test passed: iterators working correctly",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 7
+    },
+    {
+      "name": "Test Presentaciones a String",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import Banda; b = Banda('Test', ['A'], 'Rock', 'BA'); result = b.presentaciones_a_string(); print('OK' if isinstance(result, list) else 'FAIL')\"",
+      "input": "",
+      "output": "OK",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "Test Generación Aleatoria de Datos",
+      "setup": "",
+      "run": "python3 -c \"from ejercicio1 import generar_bandas_aleatorias; bandas = generar_bandas_aleatorias(); print('OK' if len(bandas) >= 15 and len(bandas) <= 25 else 'FAIL')\"",
+      "input": "",
+      "output": "OK",
+      "comparison": "exact",
+      "timeout": 15,
+      "points": 5
+    },
+    {
+      "name": "Test Exportación txt",
+      "setup": "",
+      "run": "python3 test_txt_export.py",
+      "input": "",
+      "output": "Test passed: txt export working",
+      "comparison": "exact",
+      "timeout": 20,
+      "points": 6
+    },
+    {
+      "name": "Test Anti-IA - Detección de Patrones Sospechosos",
+      "setup": "",
+      "run": "python3 anti_ai_detector.py ejercicio1.py",
+      "input": "",
+      "output": "AI_DETECTION_SCORE: 0",
+      "comparison": "exact",
+      "timeout": 30,
+      "points": 0
+    },
+    {
+      "name": "Test Verificación Integridad - Commits Timeline",
+      "setup": "",
+      "run": "python3 commit_analyzer.py",
+      "input": "",
+      "output": "TIMELINE_VALID: True",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 0
+    }
+  ]
+}
