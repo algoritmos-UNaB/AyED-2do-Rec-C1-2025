@@ -6,6 +6,8 @@
 **Tiempo límite:** 4 horas desde la aceptación del assignment  
 **Fecha:** Sábado 28/06 @ 06:00hs - Sábado 28/06 @ 19:00hs  
 
+**NOMBRE Y APELLIDO:**
+**EMAIL:**
 ---
 
 ## 🚨 INSTRUCCIONES IMPORTANTES
